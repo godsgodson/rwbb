@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RWBB ORACLE — Reality Convergence Engine</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="Live Global Threat Index • Fear &amp; Greed • Market Correlation • Polymarket Wisdom • Narrative Pulse. Reality Convergence Engine from 100+ feeds.">
+<meta property="og:title" content="RWBB ORACLE — Reality Convergence Engine">
+<meta property="og:description" content="Real-time fusion of news, markets, and crowd intelligence.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <style>
@@ -257,6 +261,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <div><span>SOURCES</span> 100+ Feeds · GDELT · Polymarket</div>
       <div><span>SIGNALS</span> GTI · F&amp;G · VIX · Crowd · Narrative</div>
       <div><span>METHOD</span> Weighted fusion · Pearson corr.</div>
+      <button onclick="shareReality()" style="margin-top:8px;background:rgba(0,0,0,0.4);border:1px solid var(--cyan);color:var(--cyan);padding:4px 14px;border-radius:4px;font-size:0.75em;cursor:pointer;font-family:'Share Tech Mono',monospace">SHARE REALITY 𝕏</button>
     </div>
   </div>
 </div>
@@ -266,7 +271,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 <div class="main">
 
-  <!-- ══════════════ LEFT COLUMN ══════════════ -->
+  <!-- LEFT COLUMN -->
   <div>
     <!-- GTI Panel -->
     <div class="panel" style="margin-bottom:13px">
@@ -296,7 +301,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
   </div>
 
-  <!-- ══════════════ CENTER COLUMN ══════════════ -->
+  <!-- CENTER COLUMN -->
   <div class="panel">
     <div class="ph">GTI Timeline <span class="tag tl">ARTICLE-COMPUTED</span></div>
     <div class="chart-tools">
@@ -340,7 +345,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
   </div>
 
-  <!-- ══════════════ RIGHT COLUMN ══════════════ -->
+  <!-- RIGHT COLUMN -->
   <div>
     <!-- Markets + VIX + Correlation -->
     <div class="panel" style="margin-bottom:13px">
@@ -421,38 +426,19 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 <script>
 // ================================================================
-// RWBB ORACLE v7.1 — FIXED: No local proxy dependency.
-// All fetches use public CORS-enabled APIs directly.
-// Fallback chains for every data source.
+// RWBB ORACLE v7.2 — FULL UNREDACTED PRODUCTION CODE
+// Zero MyTime references. Ready for Vercel/GitHub Pages.
 // ================================================================
 
-// ── CORS PROXY CONFIG ──
-// Used ONLY for services with strict CORS (Yahoo Finance, CNN F&G)
 const CORS_PROXY = 'https://corsproxy.io/?';
 const RSS2JSON   = 'https://api.rss2json.com/v1/api.json?count=20&rss_url=';
-
-// Core fetch helpers
-async function fetchTimeout(url, ms = 12000) {
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), ms);
-  try {
-    const r = await fetch(url, { signal: ctrl.signal });
-    clearTimeout(t);
-    return r;
-  } catch(e) { clearTimeout(t); throw e; }
-}
-
-// For CORS-blocked URLs, route through corsproxy.io
-async function proxyFetch(url, ms = 12000) {
-  return fetchTimeout(CORS_PROXY + encodeURIComponent(url), ms);
-}
 
 // ── KEYWORD ENGINE ────────────────────────────────────────────
 const KW = {
   threat:['threat','attack','risk','alert','warning','emergency','danger','sabotage','hacker','cyberattack','malware','breach','intrusion','compromise','vulnerability','espionage','conspiracy','plot','hostile','assault','crisis','ransomware','exploit','backdoor','phishing','ddos','data breach','zero-day','botnet','insider threat','dead','death','murder','killed','abuse','killer','police','fire','arrested','contaminated','recall','fraud','massacre','strikes','deadly','missing','military','army','navy','air force','court','threat detection','cyber threat','attack vector'],
   terrorism:['terrorism','extremist','radical','terrorist','bombing','suicide attack','violent extremism','radical ideology','terrorist financing','radicalization','extremist group','terrorist organization','counterterrorism','border security','isis','al-qaeda','hamas','hezbollah','taliban','jihad','insurgent','militant','separatist','paramilitary','war','warfare','nuclear weapon','biological weapon','chemical weapon','dirty bomb','mass casualty','critical infrastructure','power grid','smuggling','trafficking','hostage','kidnapping','assassination'],
   cyber:['cybersecurity','data privacy','signal intelligence','network intrusion','dark web','darknet','quantum computing','encryption','facial recognition','synthetic media','data exfiltration','security breach','operational security','wiretapping','eavesdropping','surveillance','digital interception','unauthorized monitoring','communication breach','signal interception','network monitoring','ai threats','algorithm vulnerabilities','ai exploitation','ai misuse','automated attacks','ai security','ai manipulation','deepfake','disinformation','misinformation'],
-  geopolitical:['musk','kushner','geopolitical','sanctions','diplomacy','treaty','alliance','nato','un resolution','security council','sovereignty','territorial','coup','regime change','election interference','foreign influence','state-sponsored','covert operations','national security','propaganda','classified','nation-state','apt','cyber warfare','diplomatic','ambassador','embassy','foreign minister','secretary of state','prime minister','war crimes','genocide','ceasefire','peace talks','arms deal','nuclear deal','north korea','south china sea','taiwan','ukraine','russia','nato expansion','occupation','annexed','referendum'],
+  geopolitical:['geopolitical','sanctions','diplomacy','treaty','alliance','nato','un resolution','security council','sovereignty','territorial','coup','regime change','election interference','foreign influence','state-sponsored','covert operations','national security','propaganda','classified','nation-state','apt','cyber warfare','diplomatic','ambassador','embassy','foreign minister','secretary of state','prime minister','war crimes','genocide','ceasefire','peace talks','arms deal','nuclear deal','north korea','south china sea','taiwan','ukraine','russia','nato expansion','occupation','annexed','referendum'],
   financial:['market crash','stock market','financial crisis','recession','inflation','interest rate','federal reserve','bank failure','bankruptcy','default','debt ceiling','credit rating','economic collapse','currency crisis','trade war','tariff','sanction','oil price','energy crisis','food prices','supply chain','shortage','crypto crash','bitcoin','ethereum','stablecoin','defi','securities fraud','money laundering','market manipulation','insider trading','credit default','mortgage crisis','housing bubble','dollar','debt crisis','sovereign debt','unemployment','gdp','stagflation','hyperinflation','bank run','bail out'],
   prophecy:['dajjal','muhammad','israel','god','prophecy','revelation','divine','vision','oracle','sign','omen','fate','destiny','pope','christian','jesus','temple','muslim','catholic','church','prophetic','spiritual','foretold','mystical','rapture','tribulation','antichrist','armageddon','apocalypse','end times','messiah','islam','sharia','caliphate','second coming','religious prophecy','divine warning'],
   pagan:['pagan','druid','shaman','satanic','satan','lucifer','occult','demon','exorcism','hell','satanism','cult','wicca','witch','spell','pentagram','divination','magic','witchcraft','ritual','nasa','fbi','cia','nsa','secret service','shooting','stabbing','coverup','dhs','deep state','shadow government','false flag','new world order','illuminati','freemason','cabal','globalist','bilderberg','secret society'],
@@ -546,7 +532,6 @@ const FEEDS = [
 
 // ================================================================
 // SCORER
-// ================================================================
 class Scorer {
   constructor() { this.freq = {}; }
   score(title) {
@@ -575,7 +560,6 @@ class Scorer {
 
 // ================================================================
 // GTI ENGINE
-// ================================================================
 class GTI {
   constructor() { this.hist = this.load(); }
   load() {
@@ -621,18 +605,12 @@ class GTI {
 }
 
 // ================================================================
-// MARKET DATA — Direct CORS-enabled APIs (no local proxy)
-// SPX + VIX → Yahoo Finance via corsproxy.io
-// BTC       → Binance → Kraken → CoinCap (all support CORS natively)
-// ================================================================
+// MARKET DATA
 class Market {
   constructor() { this.spx = null; this.btc = null; this.vix = null; this.live = { spx: false, btc: false, vix: false }; }
-
   async fetchAll() { await Promise.allSettled([this.fetchSPX(), this.fetchBTC(), this.fetchVIX()]); }
-
   async fetchSPX() {
     try {
-      // Yahoo Finance doesn't support CORS — route through corsproxy.io
       const url = 'https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=5d&interval=15m';
       const r = await proxyFetch(url, 14000);
       const d = await r.json();
@@ -640,7 +618,6 @@ class Market {
       this.live.spx = !!this.spx;
     } catch(e) { console.warn('SPX fetch failed:', e.message); }
   }
-
   async fetchVIX() {
     try {
       const url = 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=5d&interval=15m';
@@ -650,26 +627,11 @@ class Market {
       this.live.vix = !!this.vix;
     } catch(e) { console.warn('VIX fetch failed:', e.message); }
   }
-
   async fetchBTC() {
-    // Binance 451-blocks direct browser requests in many regions → route through proxy
-    // Kraken and CoinCap support CORS natively → try direct first, proxy as fallback
     const sources = [
-      {
-        url: 'https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT',
-        proxy: true,
-        parse: d => ({ price: parseFloat(d.lastPrice), prev: parseFloat(d.prevClosePrice), changePct: parseFloat(d.priceChangePercent), sym: 'BTC/USD (Binance)' })
-      },
-      {
-        url: 'https://api.kraken.com/0/public/Ticker?pair=XBTUSD',
-        proxy: false,
-        parse: d => { const t = d.result?.XXBTZUSD; if (!t) throw new Error('no data'); const p = parseFloat(t.c[0]); const o = parseFloat(t.o); return { price: p, prev: o, changePct: (p - o) / o * 100, sym: 'BTC/USD (Kraken)' }; }
-      },
-      {
-        url: 'https://api.coincap.io/v2/assets/bitcoin',
-        proxy: false,
-        parse: d => { const p = parseFloat(d.data.priceUsd), ch = parseFloat(d.data.changePercent24Hr); return { price: p, prev: p / (1 + ch / 100), changePct: ch, sym: 'BTC/USD (CoinCap)' }; }
-      }
+      {url: 'https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT', proxy: true, parse: d => ({ price: parseFloat(d.lastPrice), prev: parseFloat(d.prevClosePrice), changePct: parseFloat(d.priceChangePercent), sym: 'BTC/USD (Binance)' })},
+      {url: 'https://api.kraken.com/0/public/Ticker?pair=XBTUSD', proxy: false, parse: d => { const t = d.result?.XXBTZUSD; if (!t) throw new Error('no data'); const p = parseFloat(t.c[0]); const o = parseFloat(t.o); return { price: p, prev: o, changePct: (p - o) / o * 100, sym: 'BTC/USD (Kraken)' }; }},
+      {url: 'https://api.coincap.io/v2/assets/bitcoin', proxy: false, parse: d => { const p = parseFloat(d.data.priceUsd), ch = parseFloat(d.data.changePercent24Hr); return { price: p, prev: p / (1 + ch / 100), changePct: ch, sym: 'BTC/USD (CoinCap)' }; }}
     ];
     for (const src of sources) {
       try {
@@ -683,7 +645,6 @@ class Market {
         }
       } catch(e) { console.warn('BTC source failed:', src.url, e.message); }
     }
-    // Final fallback: Kraken through proxy too
     try {
       const r = await proxyFetch('https://api.kraken.com/0/public/Ticker?pair=XBTUSD', 12000);
       const d = await r.json();
@@ -693,7 +654,6 @@ class Market {
       this.live.btc = true;
     } catch(e) { console.warn('BTC all sources failed'); }
   }
-
   parseYahoo(d, sym) {
     try {
       const res = d.chart.result[0], meta = res.meta, q = res.indicators.quote[0];
@@ -704,7 +664,6 @@ class Market {
       return { price: +cur.toFixed(2), prev: +prev.toFixed(2), change: +(cur - prev).toFixed(2), changePct: +((cur - prev) / prev * 100).toFixed(2), prices, sym };
     } catch(e) { return null; }
   }
-
   getReturns(which) {
     const data = which === 'spx' ? this.spx : this.btc;
     if (!data?.prices?.length) return [];
@@ -716,33 +675,24 @@ class Market {
 
 // ================================================================
 // FEAR & GREED
-// Primary: alternative.me crypto F&G (CORS-native, free, reliable)
-// Fallback: CNN via corsproxy.io
-// ================================================================
 class FearGreed {
   constructor() { this.data = null; this.live = false; }
-
   async fetch() {
-    // Strategy 1: alternative.me F&G API (CORS-enabled, no proxy needed)
     try {
       const r = await fetchTimeout('https://api.alternative.me/fng/?limit=35&format=json', 10000);
       const d = await r.json();
       const parsed = this.parseAltMe(d);
       if (parsed) { this.data = parsed; this.live = true; return parsed; }
     } catch(e) { console.warn('alt.me F&G failed:', e.message); }
-
-    // Strategy 2: CNN via CORS proxy
     try {
       const r = await proxyFetch('https://production.dataviz.cnn.io/index/fearandgreed/graphdata', 12000);
       const d = await r.json();
       const parsed = this.parseCNN(d);
       if (parsed) { this.data = parsed; this.live = true; return parsed; }
     } catch(e) { console.warn('CNN F&G failed:', e.message); }
-
     this.live = false;
     return null;
   }
-
   parseAltMe(d) {
     try {
       if (!d.data?.length) return null;
@@ -760,7 +710,6 @@ class FearGreed {
       };
     } catch(e) { return null; }
   }
-
   parseCNN(d) {
     try {
       const fg = d.fear_and_greed, fgh = d.fear_and_greed_historical;
@@ -777,13 +726,11 @@ class FearGreed {
       };
     } catch(e) { return null; }
   }
-
   scoreToLabel(s) { return s >= 75 ? 'Extreme Greed' : s >= 55 ? 'Greed' : s >= 45 ? 'Neutral' : s >= 25 ? 'Fear' : 'Extreme Fear'; }
 }
 
 // ================================================================
-// CORRELATION  (Pearson r: GTI readings ↔ market returns)
-// ================================================================
+// CORRELATION
 class Correlation {
   constructor(gti, mkt) { this.gti = gti; this.mkt = mkt; }
   compute() {
@@ -814,8 +761,7 @@ class Correlation {
 }
 
 // ================================================================
-// FORECAST  (Holt exponential smoothing + mean reversion)
-// ================================================================
+// FORECAST
 class Forecast {
   constructor(gti) { this.gti = gti; }
   generate() {
@@ -836,13 +782,9 @@ class Forecast {
 }
 
 // ================================================================
-// RSS FETCHER — Two strategies, no local proxy
-// 1. rss2json.com (public API, CORS-native)
-// 2. Direct XML fetch via corsproxy.io as fallback
-// ================================================================
+// RSS FETCHER
 class RSSFetcher {
   constructor() { this.articles = []; this.seen = new Set(); this.loaded = 0; this.failed = 0; }
-
   async fetchAll(onProg) {
     this.articles = []; this.seen = new Set(); this.loaded = 0; this.failed = 0;
     const BS = 6;
@@ -853,9 +795,7 @@ class RSSFetcher {
     }
     return this.articles;
   }
-
   async fetchFeed(feed) {
-    // Strategy 1: rss2json.com (handles Google News, Reddit, BBC, etc. — CORS native)
     try {
       const r = await fetchTimeout(RSS2JSON + encodeURIComponent(feed.u), 10000);
       const d = await r.json();
@@ -864,9 +804,7 @@ class RSSFetcher {
         this.loaded++;
         return;
       }
-    } catch(e) { /* fall through */ }
-
-    // Strategy 2: Direct XML fetch via CORS proxy
+    } catch(e) {}
     try {
       const r = await proxyFetch(feed.u, 10000);
       const xml = await r.text();
@@ -876,11 +814,9 @@ class RSSFetcher {
         this.loaded++;
         return;
       }
-    } catch(e) { /* fall through */ }
-
+    } catch(e) {}
     this.failed++;
   }
-
   processItems(items, sourceName) {
     for (const item of items.slice(0, 12)) {
       const link = item.link || item.guid || item.url;
@@ -900,30 +836,24 @@ class RSSFetcher {
 }
 
 // ================================================================
-// GDELT FETCHER — Direct (GDELT API supports CORS natively)
-// ================================================================
+// GDELT FETCHER
 class GDELTFetcher {
   constructor() { this.articles = []; this.loaded = 0; }
-
   async fetchAll() {
     this.articles = []; this.loaded = 0;
-    // Quoted phrase queries — more reliable than keyword lists for GDELT v2
     const queries = [
       { q: '"military attack" OR "armed conflict" OR "airstrike" OR "missile strike"', theme: 'terrorism' },
       { q: '"cyber attack" OR "data breach" OR "ransomware" OR "hacked"',             theme: 'cyber' },
       { q: '"financial crisis" OR "market crash" OR "bank collapse" OR "recession"',  theme: 'financial' },
       { q: '"NATO" OR "Russia Ukraine" OR "Taiwan strait" OR "nuclear threat"',       theme: 'geopolitical' }
     ];
-    // Sequential with a gap to avoid GDELT rate-limiting (parallel = silent empty responses)
     for (const q of queries) {
       await this.fetchQuery(q);
       await new Promise(r => setTimeout(r, 1200));
     }
     return this.articles;
   }
-
   async fetchQuery({ q, theme }) {
-    // Try 48h first; if GDELT returns nothing, fall back to 7d
     for (const timespan of ['48h', '7d']) {
       const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=25&format=json&sort=DateDesc&timespan=${timespan}`;
       try {
@@ -946,12 +876,11 @@ class GDELTFetcher {
             });
           }
           this.loaded++;
-          return; // success — don't try wider timespan
+          return;
         }
       } catch(e) { console.warn(`GDELT [${theme}/${timespan}] failed:`, e.message); }
     }
   }
-
   parseDt(s) {
     if (!s) return Date.now();
     try {
@@ -963,32 +892,24 @@ class GDELTFetcher {
 }
 
 // ================================================================
-// POLYMARKET FETCHER — Gamma API via CORS proxy
-// (gamma-api.polymarket.com does NOT send CORS headers to browsers)
-// ================================================================
+// POLYMARKET FETCHER
 class PolymarketFetcher {
   constructor() { this.data = []; this.live = false; }
-
   async fetch() {
     const GAMMA = 'https://gamma-api.polymarket.com/markets?active=true&closed=false&order=volume&ascending=false&limit=20';
-    // Strategy 1: direct (works when served over HTTP from localhost or some hosts)
     try {
       const r = await fetchTimeout(GAMMA, 10000);
       const d = await r.json();
       if (Array.isArray(d) && d.length) { return this._process(d); }
-    } catch(e) { /* fall through */ }
-
-    // Strategy 2: CORS proxy
+    } catch(e) {}
     try {
       const r = await proxyFetch(GAMMA, 14000);
       const d = await r.json();
       if (Array.isArray(d) && d.length) { return this._process(d); }
     } catch(e) { console.warn('Polymarket fetch failed:', e.message); }
-
     this.live = false;
     return [];
   }
-
   _process(d) {
     this.data = d.filter(m => {
       const vol = parseFloat(m.volume || m.volumeNum || 0);
@@ -1000,22 +921,16 @@ class PolymarketFetcher {
 }
 
 // ================================================================
-// NARRATIVE PULSE — Built from article keyword frequencies
-// (Google Trends API has no CORS support so we derive from articles)
-// ================================================================
+// TRENDS PULSE
 class TrendsPulse {
   constructor() { this.data = []; this.live = false; }
-
   buildFromArticles(articles) {
-    // Extract and rank the most-mentioned meaningful terms
     const freq = {};
     const stopwords = new Set(['the','and','for','are','but','not','you','all','can','had','her','was','one','our','out','day','get','has','him','his','how','man','new','now','old','see','two','way','who','boy','did','its','let','put','say','she','too','use','that','this','with','have','from','they','will','been','when','what','into','some','than','more','very','after','also','back','come','could','does','down','each','even','first','give','good','here','just','know','last','left','like','live','look','make','many','most','much','must','need','next','only','open','over','part','same','said','show','take','than','them','then','time','told','took','turn','upon','want','well','went','were','whom','with','year','your']);
-    
     for (const a of articles) {
       const words = a.title.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 4 && !stopwords.has(w));
       for (const w of words) freq[w] = (freq[w] || 0) + 1;
     }
-
     this.data = Object.entries(freq)
       .filter(([w, cnt]) => cnt >= 2)
       .sort((a, b) => b[1] - a[1])
@@ -1027,11 +942,55 @@ class TrendsPulse {
 }
 
 // ================================================================
-// CHART RENDERER
+// NEXUS PREDICTOR
+class NexusPredictor {
+  compute(gti, fg, market, polyData, trendsData) {
+    const gtiSig = (gti?.v || 50) / 100;
+    const fearSig = (100 - (fg?.score || 50)) / 100;
+    const vix = market.vix?.price || 20;
+    const vixSig = Math.min(1, vix / 50);
+    let crowdSig = 0.35;
+    if (polyData?.length) {
+      const recMkt = polyData.find(m => (m.question || '').toLowerCase().includes('recession'));
+      if (recMkt) {
+        try {
+          const outArr = recMkt.outcomePrices ? JSON.parse(recMkt.outcomePrices) : (recMkt.outcomes ? recMkt.outcomes : null);
+          if (outArr && outArr.length) crowdSig = Math.min(1, parseFloat(outArr[0]) || 0.35);
+        } catch(e) {}
+      }
+    }
+    let narSig = 0.3;
+    if (trendsData?.length > 0) {
+      const threatTerms = /recession|war|cyber|attack|crash|bitcoin|collapse|crisis|nuclear|sanctions/i;
+      narSig = Math.min(0.9, trendsData.filter(t => threatTerms.test(t.title)).length / Math.max(trendsData.length, 1) * 1.5);
+    }
+    const mktChg = market.btc?.changePct || market.spx?.changePct || 0;
+    const mktSig = Math.min(1, Math.max(0, 0.5 - mktChg / 20));
+    const W = { gti: 0.27, fear: 0.20, vix: 0.18, crowd: 0.17, nar: 0.11, mkt: 0.07 };
+    const raw = gtiSig * W.gti + fearSig * W.fear + vixSig * W.vix + crowdSig * W.crowd + narSig * W.nar + mktSig * W.mkt;
+    const score = Math.max(5, Math.min(95, Math.round(raw * 100)));
+    const label = score >= 75 ? 'ELEVATED RISK' : score >= 62 ? 'CAUTIOUS' : score >= 48 ? 'NEUTRAL' : score >= 35 ? 'CALM' : 'BULLISH BIAS';
+    const bearBias = (score - 50) / 50;
+    const sp24 = (-1.1 * bearBias + (Math.random() - 0.5) * 0.3).toFixed(1);
+    const sp7d  = (-2.8 * bearBias + (Math.random() - 0.5) * 0.6).toFixed(1);
+    const btc24 = (1.8 - 3.0 * bearBias + (Math.random() - 0.5) * 0.5).toFixed(1);
+    const conf  = Math.min(94, Math.round(62 + Math.abs(score - 50) * 0.55));
+    const radar = [
+      Math.round(gtiSig * 100),
+      Math.round(fearSig * 100),
+      Math.round(vixSig * 100),
+      Math.round(crowdSig * 100),
+      Math.round(narSig * 100),
+      Math.round(mktSig * 100),
+    ];
+    return { score, label, sp24, sp7d, btc24, conf, radar, signals: { gti: Math.round(gtiSig * 100), fear: Math.round(fearSig * 100), vix: Math.round(vixSig * 100), crowd: Math.round(crowdSig * 100), nar: Math.round(narSig * 100), mkt: Math.round(mktSig * 100) } };
+  }
+}
+
 // ================================================================
+// CHART RENDERER
 class ChartRend {
   constructor() { this.chart = null; this.fc = false; }
-
   init() {
     const ctx = document.getElementById('gtiChart').getContext('2d');
     this.chart = new Chart(ctx, {
@@ -1057,7 +1016,6 @@ class ChartRend {
       }
     });
   }
-
   update(hist, fcData) {
     if (!this.chart) return;
     this.chart.data.datasets[0].data = hist.map(h => ({ x: h.t, y: h.v }));
@@ -1071,7 +1029,6 @@ class ChartRend {
     } else [1, 2, 3].forEach(i => this.chart.data.datasets[i].data = []);
     this.chart.update('none');
   }
-
   setRange(ms) {
     const now = Date.now();
     this.chart.options.scales.x.min = now - ms;
@@ -1082,11 +1039,9 @@ class ChartRend {
 }
 
 // ================================================================
-// REALITY RADAR  (6-signal convergence)
-// ================================================================
+// REALITY RADAR
 class RealityRadar {
   constructor() { this.chart = null; }
-
   init() {
     const ctx = document.getElementById('radarChart').getContext('2d');
     this.chart = new Chart(ctx, {
@@ -1111,69 +1066,13 @@ class RealityRadar {
       }
     });
   }
-
   update(vals) {
     if (this.chart) { this.chart.data.datasets[0].data = vals; this.chart.update('none'); }
   }
 }
 
 // ================================================================
-// NEXUS PREDICTOR  (6-signal weighted Oracle score)
-// ================================================================
-class NexusPredictor {
-  compute(gti, fg, market, polyData, trendsData) {
-    const gtiSig = (gti?.v || 50) / 100;
-    const fearSig = (100 - (fg?.score || 50)) / 100;
-    const vix = market.vix?.price || 20;
-    const vixSig = Math.min(1, vix / 50);
-
-    let crowdSig = 0.35;
-    if (polyData?.length) {
-      const recMkt = polyData.find(m => (m.question || '').toLowerCase().includes('recession'));
-      if (recMkt) {
-        try {
-          const outArr = recMkt.outcomePrices ? JSON.parse(recMkt.outcomePrices) : (recMkt.outcomes ? recMkt.outcomes : null);
-          if (outArr && outArr.length) crowdSig = Math.min(1, parseFloat(outArr[0]) || 0.35);
-        } catch(e) {}
-      }
-    }
-
-    let narSig = 0.3;
-    if (trendsData?.length > 0) {
-      const threatTerms = /recession|war|cyber|attack|crash|bitcoin|collapse|crisis|nuclear|sanctions/i;
-      narSig = Math.min(0.9, trendsData.filter(t => threatTerms.test(t.title)).length / Math.max(trendsData.length, 1) * 1.5);
-    }
-
-    const mktChg = market.btc?.changePct || market.spx?.changePct || 0;
-    const mktSig = Math.min(1, Math.max(0, 0.5 - mktChg / 20));
-
-    const W = { gti: 0.27, fear: 0.20, vix: 0.18, crowd: 0.17, nar: 0.11, mkt: 0.07 };
-    const raw = gtiSig * W.gti + fearSig * W.fear + vixSig * W.vix + crowdSig * W.crowd + narSig * W.nar + mktSig * W.mkt;
-    const score = Math.max(5, Math.min(95, Math.round(raw * 100)));
-    const label = score >= 75 ? 'ELEVATED RISK' : score >= 62 ? 'CAUTIOUS' : score >= 48 ? 'NEUTRAL' : score >= 35 ? 'CALM' : 'BULLISH BIAS';
-
-    const bearBias = (score - 50) / 50;
-    const sp24 = (-1.1 * bearBias + (Math.random() - 0.5) * 0.3).toFixed(1);
-    const sp7d  = (-2.8 * bearBias + (Math.random() - 0.5) * 0.6).toFixed(1);
-    const btc24 = (1.8 - 3.0 * bearBias + (Math.random() - 0.5) * 0.5).toFixed(1);
-    const conf  = Math.min(94, Math.round(62 + Math.abs(score - 50) * 0.55));
-
-    const radar = [
-      Math.round(gtiSig * 100),
-      Math.round(fearSig * 100),
-      Math.round(vixSig * 100),
-      Math.round(crowdSig * 100),
-      Math.round(narSig * 100),
-      Math.round(mktSig * 100),
-    ];
-
-    return { score, label, sp24, sp7d, btc24, conf, radar, signals: { gti: Math.round(gtiSig * 100), fear: Math.round(fearSig * 100), vix: Math.round(vixSig * 100), crowd: Math.round(crowdSig * 100), nar: Math.round(narSig * 100), mkt: Math.round(mktSig * 100) } };
-  }
-}
-
-// ================================================================
 // HELPERS
-// ================================================================
 function cleanHtml(s) {
   return s.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#\d+;/g, ' ').trim();
 }
@@ -1204,9 +1103,22 @@ function timeAgo(ts) {
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 function fmtN(n, d = 2) { if (n == null || isNaN(n)) return '--'; return n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d }); }
 
+// Core fetch helpers
+async function fetchTimeout(url, ms = 12000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try {
+    const r = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(t);
+    return r;
+  } catch(e) { clearTimeout(t); throw e; }
+}
+async function proxyFetch(url, ms = 12000) {
+  return fetchTimeout(CORS_PROXY + encodeURIComponent(url), ms);
+}
+
 // ================================================================
 // APP
-// ================================================================
 class App {
   constructor() {
     this.scorer   = new Scorer();
@@ -1254,7 +1166,6 @@ class App {
     this.countdown = 300;
     this.setLoad(5, 'Connecting to live feeds...');
 
-    // Fetch market data and F&G in parallel with articles
     const [rssResult, gdeltResult, polyResult, mktResult, fgResult] = await Promise.allSettled([
       this.rss.fetchAll((prog, ld, fa, cnt) => {
         this.setLoad(5 + prog * 50, `RSS: ${ld} feeds synced · ${cnt} articles · ${fa} failed`);
@@ -1271,12 +1182,10 @@ class App {
 
     this.setLoad(70, 'Scoring articles...');
 
-    // Deduplicate and score
     const rssLinks = new Set(rawRss.map(a => a.link));
     const merged   = [...rawRss, ...rawGdelt.filter(a => !rssLinks.has(a.link))];
     this.articles  = merged.map(a => { a.sc = this.scorer.score(a.title); return a; }).sort((a, b) => b.sc.total - a.sc.total);
 
-    // Build narrative pulse from article keywords (no external dependency)
     this.trendsData = this.trends.buildFromArticles(this.articles);
 
     this.setLoad(80, 'Computing GTI & forecasts...');
@@ -1291,7 +1200,6 @@ class App {
     this.updateStatus();
     this.setLoad(100, 'REALITY SYNCED · ' + new Date().toLocaleTimeString());
 
-    // Update feed health
     const fh = document.getElementById('feedHealth');
     if (fh) {
       const ok = this.rss.loaded, total = FEEDS.length;
@@ -1323,7 +1231,6 @@ class App {
     const n = document.getElementById('gtiN');
     n.textContent = this.curGTI.v.toFixed(1); n.style.color = c; n.style.textShadow = `0 0 30px ${c}40`;
     const l = document.getElementById('gtiL'); l.textContent = this.curGTI.lvl; l.style.color = c;
-    // Update GTI tag
     const gtiTag = document.getElementById('gtiTag');
     if (gtiTag) { gtiTag.textContent = this.curGTI.lvl; gtiTag.className = 'tag ' + (this.curGTI.lvl === 'CRITICAL' ? 'to' : this.curGTI.lvl === 'ELEVATED' ? 'tc' : 'tl'); }
     const st = this.gti.stats(), tr = st.trend;
@@ -1436,7 +1343,6 @@ class App {
       document.getElementById('fc3h').textContent = this.curFC.h3?.v.toFixed(1) || '--';
       document.getElementById('fc6h').textContent = this.curFC.h6?.v.toFixed(1) || '--';
     } else fc.classList.remove('on');
-    // Update freshness
     const fr = document.getElementById('freshness');
     if (fr && hist.length) fr.textContent = 'UPDATED ' + new Date(hist[hist.length - 1].t).toLocaleTimeString();
   }
@@ -1468,10 +1374,8 @@ class App {
     grid.innerHTML = this.polyData.map(m => {
       let yesP = 50;
       try {
-        // Polymarket Gamma API uses outcomePrices as a JSON string of prices
         const op = m.outcomePrices ? JSON.parse(m.outcomePrices) : (m.outcomes || []);
         if (op.length) yesP = Math.round(parseFloat(op[0]) * 100);
-        // Clamp to [0,100] in case prices are already in % form
         if (yesP > 100) yesP = Math.round(parseFloat(op[0]));
       } catch(e) {}
       yesP = Math.max(0, Math.min(100, yesP));
@@ -1605,13 +1509,25 @@ function setRange(r, btn) {
 function toggleFc() { app.chart.fc = !app.chart.fc; document.getElementById('fcBtn').classList.toggle('act'); app.renderChart(); }
 function filterArt() { app.filterAndRender(); }
 
+window.shareReality = function() {
+  const score = document.getElementById('nexusScore').textContent || '??';
+  const label = document.getElementById('nexusLbl').textContent || 'LIVE';
+  const text = `RWBB ORACLE Reality Convergence Score: ${score} — ${label}\nhttps://your-deployed-url.com`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('button[onclick="shareReality()"]');
+    const orig = btn.textContent;
+    btn.textContent = 'COPIED!';
+    setTimeout(() => btn.textContent = orig, 1800);
+  });
+  window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   app = new App();
   app.init().catch(err => {
     console.error('ORACLE init error:', err);
     const det = document.getElementById('lDet');
     if (det) det.textContent = 'ERROR: ' + err.message;
-    // Still dismiss loader after error so UI is accessible
     setTimeout(() => document.getElementById('loader')?.classList.add('gone'), 3000);
   });
 });
