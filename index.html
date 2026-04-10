@@ -386,11 +386,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 <script>
 // ================================================================
-// RWBB ORACLE v7.4 — COMPLETE UNTRUNCATED — FULLY WORKING ON VERCEL
-// GDELT uses allorigins.win (primary) + corsproxy fallback
-// RSS is the main reliable source for articles (always loads)
-// No 127.0.0.1, no 403 crashes, fmtPct fixed, all functions present
-// 1478 lines — copy the entire block
+// RWBB ORACLE v7.5 — FULL UNTRUNCATED — VERCEL STATIC READY
+// GDELT uses ALL_ORIGINS (reliable) — no more 403 on corsproxy
+// RSS is primary (guaranteed articles)
+// Clear cache + hard refresh after deploy
 // ================================================================
 const CORS_PROXY = 'https://corsproxy.io/?';
 const ALL_ORIGINS = 'https://api.allorigins.win/raw?url=';
@@ -813,7 +812,7 @@ class GDELTFetcher {
   }
   async fetchQuery({ q, theme }) {
     const gdeltBase = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=25&format=json&sort=DateDesc&timespan=`;
-    const proxies = [ALL_ORIGINS, CORS_PROXY];
+    const proxies = [ALL_ORIGINS]; // ONLY allorigins — corsproxy is blocked
     for (const timespan of ['48h', '7d']) {
       const targetUrl = gdeltBase + timespan;
       for (const proxy of proxies) {
@@ -837,10 +836,11 @@ class GDELTFetcher {
               });
             }
             this.loaded++;
+            console.log(`✅ GDELT ${theme} loaded via allorigins`);
             return;
           }
         } catch(e) {
-          console.warn(`GDELT [${theme}/${timespan}] via proxy failed:`, e.message);
+          console.warn(`GDELT [${theme}/${timespan}] failed:`, e.message);
         }
       }
     }
